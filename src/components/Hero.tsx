@@ -6,7 +6,7 @@ import Header from "./Header";
 const Hero = () => {
 
   return (
-    <section id="hero" className="relative min-h-[48vh] sm:h-[60vh] overflow-hidden">
+    <section id="hero" className="relative overflow-hidden">
       {/* Header */}
       <Header />
       
@@ -19,7 +19,7 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col justify-center min-h-[48vh] sm:min-h-[60vh] pt-40 sm:pt-32 pb-8 sm:pb-20">
+      <div className="relative z-10 flex flex-col justify-center py-32 sm:py-24 md:py-32 lg:py-40">
         {/* Centered Content */}
         <div className="max-w-4xl mx-auto px-6 w-full">
           <div className="text-center text-white space-y-8">
