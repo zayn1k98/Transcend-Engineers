@@ -50,8 +50,8 @@ const Services = () => {
   return (
     <section id="services" className="py-24 surface-elevated">
       <div className="container mx-auto px-6">
-        {/* Section Header */}
-        <div className="text-center mb-16">
+        {/* Section Header - Hidden on mobile */}
+        <div className="hidden md:block text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             <span className="text-glow">Our</span>
             <span className="gradient-title ml-4">Services</span>
@@ -104,7 +104,7 @@ const Services = () => {
         </div>
         
         {/* Mobile Services Accordion */}
-        <div className="md:hidden space-y-4 mt-8">
+        <div className="md:hidden space-y-4">
           {serviceCategories.map((category, index) => (
             <Card 
               key={category.title}
