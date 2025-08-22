@@ -11,6 +11,15 @@ import { Badge } from "@/components/ui/badge";
 import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+// Import assets properly
+import zionVideo from "@/assets/zion/zion-assets/zionhills.mp4";
+import zionMain from "@/assets/zion/zion-main.avif";
+import zionImage1 from "@/assets/zion/zion-assets/PXL_20240922_143018728.MV.jpg";
+import zionImage2 from "@/assets/zion/zion-assets/IMG-20231117-WA0027.jpg";
+import zionImage3 from "@/assets/zion/zion-assets/IMG-20231117-WA0066.jpg";
+import zionImage4 from "@/assets/zion/zion-assets/IMG-20231117-WA0022.jpg";
+import zionImage5 from "@/assets/zion/zion-assets/IMG-20231117-WA0017.jpg";
+
 const ZionGallery = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
@@ -23,33 +32,33 @@ const ZionGallery = () => {
   const mediaItems = [
     {
       type: "video",
-      src: "/src/assets/zion/zion-assets/zionhills.mp4",
+      src: zionVideo,
       alt: "Zion Hills Video",
-      thumbnail: "/src/assets/zion/zion-main.avif"
+      thumbnail: zionMain
     },
     {
       type: "image",
-      src: "/src/assets/zion/zion-assets/PXL_20240922_143018728.MV.jpg",
+      src: zionImage1,
       alt: "Zion Hills - Modern Architecture"
     },
     {
       type: "image",
-      src: "/src/assets/zion/zion-assets/IMG-20231117-WA0027.jpg",
+      src: zionImage2,
       alt: "Zion Hills - Steel Structure"
     },
     {
       type: "image",
-      src: "/src/assets/zion/zion-assets/IMG-20231117-WA0066.jpg",
+      src: zionImage3,
       alt: "Zion Hills - Skylight Design"
     },
     {
       type: "image",
-      src: "/src/assets/zion/zion-assets/IMG-20231117-WA0022.jpg",
+      src: zionImage4,
       alt: "Zion Hills - Roof Structure"
     },
     {
       type: "image",
-      src: "/src/assets/zion/zion-assets/IMG-20231117-WA0017.jpg",
+      src: zionImage5,
       alt: "Zion Hills - Construction Progress"
     }
   ];
