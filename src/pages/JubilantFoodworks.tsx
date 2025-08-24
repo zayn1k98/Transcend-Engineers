@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import { useScrollToSection } from "@/hooks/useScrollToSection";
 
-const LiciousProject = () => {
+const JubilantFoodworks = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -28,27 +28,27 @@ const LiciousProject = () => {
     {
       type: "image",
       src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Food Processing Facility"
+      alt: "Jubilant Foodworks - Food Processing Facility"
     },
     {
       type: "image",
       src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Custom Metal Fabrication"
+      alt: "Jubilant Foodworks - Industrial Equipment"
     },
     {
       type: "image",
       src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Stainless Steel Structures"
+      alt: "Jubilant Foodworks - Facility Overview"
     },
     {
       type: "image",
       src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Industrial Setup"
+      alt: "Jubilant Foodworks - Processing Units"
     },
     {
       type: "image",
       src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Quality Control"
+      alt: "Jubilant Foodworks - Quality Control"
     }
   ];
 
@@ -187,8 +187,8 @@ const LiciousProject = () => {
             >
               ← Projects
             </Button>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center flex-1">
-              Licious
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center flex-1 break-words px-4">
+              Jubilant
             </h1>
             <div className="w-32"></div> {/* Spacer for balance */}
           </div>
@@ -199,10 +199,10 @@ const LiciousProject = () => {
               Location: Bangalore, Karnataka
             </Badge>
             <Badge variant="secondary" className="text-sm px-4 py-2">
-              Year: 2023
+              Year: 2022
             </Badge>
             <Badge variant="secondary" className="text-sm px-4 py-2">
-              Type: Industrial Setup & Fabrication
+              Type: Food Processing Facility
             </Badge>
           </div>
         </div>
@@ -235,7 +235,7 @@ const LiciousProject = () => {
                             {item.alt}
                           </h3>
                           <p className="text-white/80 text-sm">
-                            Licious Industrial Project - {index + 1} of {mediaItems.length}
+                            Jubilant Foodworks Project - {index + 1} of {mediaItems.length}
                           </p>
                         </div>
                       </div>
@@ -282,28 +282,28 @@ const LiciousProject = () => {
             Project Overview
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-            The Licious Industrial project showcases our expertise in creating custom metal fabrication 
-            solutions for food processing facilities. We designed and fabricated industrial-grade stainless 
-            steel structures that meet the highest hygiene standards while ensuring operational efficiency.
+            The Jubilant Foodworks project represents a significant milestone in our industrial engineering portfolio. 
+            This state-of-the-art food processing facility showcases our expertise in designing and implementing 
+            complex industrial structures that meet the highest standards of food safety and operational efficiency.
           </p>
           
           <div className="grid md:grid-cols-3 gap-6 text-left">
             <div className="bg-card p-6 rounded-xl border border-accent/20">
-              <h3 className="font-semibold mb-3 text-foreground">Custom Fabrication</h3>
+              <h3 className="font-semibold mb-3 text-foreground">Advanced Processing</h3>
               <p className="text-muted-foreground">
-                Tailored metal structures designed specifically for food processing requirements and workflow optimization.
+                State-of-the-art food processing equipment integration with automated workflow systems for maximum efficiency.
               </p>
             </div>
             <div className="bg-card p-6 rounded-xl border border-accent/20">
               <h3 className="font-semibold mb-3 text-foreground">Hygiene Standards</h3>
               <p className="text-muted-foreground">
-                Food-grade stainless steel construction with smooth surfaces and easy-clean design for safety compliance.
+                Food-grade construction with hygienic design compliant with international food safety standards and regulations.
               </p>
             </div>
             <div className="bg-card p-6 rounded-xl border border-accent/20">
-              <h3 className="font-semibold mb-3 text-foreground">Modular Design</h3>
+              <h3 className="font-semibold mb-3 text-foreground">Sustainable Design</h3>
               <p className="text-muted-foreground">
-                Flexible construction allowing for easy maintenance, upgrades, and future expansion as business grows.
+                Eco-friendly facility design with energy-efficient systems and sustainable resource management solutions.
               </p>
             </div>
           </div>
@@ -313,4 +313,4 @@ const LiciousProject = () => {
   );
 };
 
-export default LiciousProject; 
+export default JubilantFoodworks;

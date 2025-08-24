@@ -9,15 +9,16 @@ import SearchModal from "./SearchModal";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVerticalsOpen, setIsVerticalsOpen] = useState(false);
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const scrollToSection = useScrollToSection();
   const location = useLocation();
 
   const navigationItems = [
-    { name: "Projects", href: "/#projects", hasDropdown: false, isAnchor: true, path: "/", pageHref: "/all-projects" },
+    { name: "Projects", href: "/#projects", hasDropdown: true, isAnchor: true, path: "/", pageHref: "/all-projects" },
     { name: "Verticals", href: "#", hasDropdown: true, isAnchor: false, path: "/" },
     { name: "About Us", href: "/about-us", hasDropdown: false, isAnchor: false, path: "/about-us" },
-    { name: "Contact Us", href: "/#contact", hasDropdown: false, isAnchor: true, path: "/", pageHref: "/" }
+    { name: "Contact Us", href: "/contact-us", hasDropdown: false, isAnchor: false, path: "/contact-us" }
   ];
 
   const isActivePage = (item: any) => {
@@ -180,26 +181,64 @@ const Header = () => {
                     </Link>
                   )
                 )}
-                {item.hasDropdown && (
+                {item.hasDropdown && item.name === "Verticals" && (
                   <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-white/20">
                     <div className="py-2">
-                      <Link to="/commercial-residential" className="block px-4 py-2 text-gray-800 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-blue-200">
-                        Commercial & Residential
+                      <Link to="/commercial-residential" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Commercial & Residential
+                        </span>
                       </Link>
-                      <Link to="/f&b" className="block px-4 py-2 text-gray-800 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-blue-200">
-                        F&B
+                      <Link to="/f&b" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          F&B
+                        </span>
                       </Link>
-                      <Link to="/healthcare" className="block px-4 py-2 text-gray-800 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-blue-200">
-                        Healthcare
+                      <Link to="/healthcare" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Healthcare
+                        </span>
                       </Link>
-                      <Link to="/industrial" className="block px-4 py-2 text-gray-800 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-blue-200">
-                        Industrial
+                      <Link to="/industrial" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Industrial
+                        </span>
                       </Link>
-                      <Link to="/residential" className="block px-4 py-2 text-gray-800 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-blue-200">
-                        Residential
+                      <Link to="/residential" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Residential
+                        </span>
                       </Link>
-                      <Link to="/upcoming" className="block px-4 py-2 text-gray-800 hover:bg-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-blue-200">
-                        Upcoming
+                      <Link to="/upcoming" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Upcoming
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+                {item.hasDropdown && item.name === "Projects" && (
+                  <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-white/20">
+                    <div className="py-2">
+                      <Link to="/zion-gallery" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Zion Hills
+                        </span>
+                      </Link>
+                      <Link to="/licious-project" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Licious
+                        </span>
+                      </Link>
+                      <Link to="/jubilant-foodworks" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          Jubilant Foodworks
+                        </span>
+                      </Link>
+                      <Link to="/all-projects" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
+                        <span className="relative inline-block">
+                          View All Projects
+                        </span>
                       </Link>
                     </div>
                   </div>
@@ -226,7 +265,7 @@ const Header = () => {
             <nav className="py-3 xs:py-4 sm:py-5 space-y-1 xs:space-y-2">
               {navigationItems.map((item) => (
                 <div key={item.name}>
-                  {item.hasDropdown ? (
+                  {item.hasDropdown && item.name === "Verticals" ? (
                     <div className="space-y-1">
                       <button
                         onClick={() => setIsVerticalsOpen(!isVerticalsOpen)}
@@ -243,45 +282,111 @@ const Header = () => {
                         <div className="pl-4 xs:pl-6 sm:pl-8 space-y-1 xs:space-y-1.5">
                           <Link
                             to="/commercial-residential"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm xs:text-base sm:text-base"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Commercial & Residential
+                            <span className="relative inline-block">
+                              Commercial & Residential
+                            </span>
                           </Link>
                           <Link
                             to="/f&b"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm xs:text-base sm:text-base"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            F&B
+                            <span className="relative inline-block">
+                              F&B
+                            </span>
                           </Link>
                           <Link
                             to="/healthcare"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm xs:text-base sm:text-base"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Healthcare
+                            <span className="relative inline-block">
+                              Healthcare
+                            </span>
                           </Link>
                           <Link
                             to="/industrial"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm xs:text-base sm:text-base"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Industrial
+                            <span className="relative inline-block">
+                              Industrial
+                            </span>
                           </Link>
                           <Link
                             to="/residential"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm xs:text-base sm:text-base"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Residential
+                            <span className="relative inline-block">
+                              Residential
+                            </span>
                           </Link>
                           <Link
                             to="/upcoming"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-white/10 transition-colors text-sm xs:text-base sm:text-base"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            Upcoming
+                            <span className="relative inline-block">
+                              Upcoming
+                            </span>
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  ) : item.hasDropdown && item.name === "Projects" ? (
+                    <div className="space-y-1">
+                      <button
+                        onClick={() => setIsProjectsOpen(!isProjectsOpen)}
+                        className="w-full flex items-center justify-between px-4 xs:px-5 sm:px-6 py-3 xs:py-3.5 sm:py-4 text-white/90 hover:text-white hover:bg-white/10 transition-colors font-medium text-base xs:text-lg sm:text-lg"
+                      >
+                        <span>{item.name}</span>
+                        {isProjectsOpen ? (
+                          <ChevronUp className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5" />
+                        )}
+                      </button>
+                      {isProjectsOpen && (
+                        <div className="pl-4 xs:pl-6 sm:pl-8 space-y-1 xs:space-y-1.5">
+                          <Link
+                            to="/zion-gallery"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <span className="relative inline-block">
+                              Zion Hills
+                            </span>
+                          </Link>
+                          <Link
+                            to="/licious-project"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <span className="relative inline-block">
+                              Licious
+                            </span>
+                          </Link>
+                          <Link
+                            to="/jubilant-foodworks"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <span className="relative inline-block">
+                              Jubilant Foodworks
+                            </span>
+                          </Link>
+                          <Link
+                            to="/all-projects"
+                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            <span className="relative inline-block">
+                              View All Projects
+                            </span>
                           </Link>
                         </div>
                       )}

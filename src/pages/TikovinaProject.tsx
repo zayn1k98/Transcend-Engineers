@@ -1,299 +1,314 @@
+import React, { useState, useEffect } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, MapPin, Users, Award, Target, CheckCircle2, Building, Palette, Zap, Shield } from "lucide-react";
-import { Link } from "react-router-dom";
-import projectImage from "@/assets/project-1.jpg";
+import { Badge } from "@/components/ui/badge";
+import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import { useScrollToSection } from "@/hooks/useScrollToSection";
 
 const TikovinaProject = () => {
-  const projectDetails = {
-    title: "Tikovina Custom Structures",
-    location: "Bangalore, Karnataka",
-    year: "2022",
-    duration: "6 months",
-    client: "Tikovina Architects",
-    category: "Custom Architectural Fabrication",
-    description: "A sophisticated custom metal fabrication project for Tikovina Architects, featuring unique architectural elements, precision-engineered structures, and innovative design solutions that blend functionality with aesthetic excellence.",
-    challenge: "The project demanded creating highly customized metal structures with complex geometric designs, requiring precise engineering and fabrication techniques to achieve the architect's unique vision while maintaining structural integrity and durability.",
-    solution: "We employed advanced CAD modeling and precision fabrication techniques to create custom metal structures with intricate designs. Our team utilized specialized welding and finishing processes to achieve the desired aesthetic while ensuring structural soundness and longevity.",
-    highlights: [
-      "Custom geometric metal structures",
-      "Precision-engineered components",
-      "Advanced CAD modeling",
-      "Specialized welding techniques",
-      "Custom surface finishes",
-      "Architectural integration"
-    ],
-    specifications: [
-      "Material: High-grade Steel & Aluminum",
-      "Design Complexity: Advanced geometric patterns",
-      "Surface Finish: Custom powder coating",
-      "Precision Tolerance: ±0.5mm",
-      "Structural Load: 500 kg/m²",
-      "Installation Time: 6 months"
-    ],
-    valuePropositions: [
-      {
-        icon: Building,
-        title: "Architectural Excellence",
-        description: "Custom-designed structures that perfectly complement the architectural vision and enhance the overall aesthetic appeal."
-      },
-      {
-        icon: Palette,
-        title: "Design Flexibility",
-        description: "Unlimited design possibilities with precision fabrication techniques that bring complex architectural concepts to life."
-      },
-      {
-        icon: Zap,
-        title: "Quality Craftsmanship",
-        description: "Meticulous attention to detail and superior craftsmanship ensure long-lasting beauty and structural integrity."
-      },
-      {
-        icon: Shield,
-        title: "Durability & Performance",
-        description: "Engineered for longevity with weather-resistant materials and finishes that maintain their appearance over time."
-      }
-    ],
-    results: [
-      "100% design accuracy achieved",
-      "Zero structural issues reported",
-      "Enhanced architectural appeal",
-      "Improved property value",
-      "Client satisfaction exceeded expectations",
-      "Award-winning design recognition"
-    ]
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [carouselApi, setCarouselApi] = useState<any>(null);
+  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const navigate = useNavigate();
+  const scrollToSection = useScrollToSection();
+
+  // Placeholder media items - you can replace these with actual assets later
+  const mediaItems = [
+    {
+      type: "image",
+      src: "/placeholder-project.jpg",
+      alt: "Tikovina Custom Structures - Architectural Design"
+    },
+    {
+      type: "image",
+      src: "/placeholder-project.jpg",
+      alt: "Tikovina Custom Structures - Metal Fabrication"
+    },
+    {
+      type: "image",
+      src: "/placeholder-project.jpg",
+      alt: "Tikovina Custom Structures - Structural Elements"
+    },
+    {
+      type: "image",
+      src: "/placeholder-project.jpg",
+      alt: "Tikovina Custom Structures - Installation Process"
+    },
+    {
+      type: "image",
+      src: "/placeholder-project.jpg",
+      alt: "Tikovina Custom Structures - Final Result"
+    }
+  ];
+
+  const handleVideoPlayPause = () => {
+    if (!isPlaying) {
+      setIsPlaying(true);
+      enterFullscreen();
+    } else {
+      setIsPlaying(false);
+      exitFullscreen();
+    }
   };
+
+  const handleVideoResume = () => {
+    setIsPlaying(true);
+    enterFullscreen();
+  };
+
+  const handleVideoMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  const enterFullscreen = async () => {
+    if (videoRef && !isFullscreen) {
+      try {
+        if (videoRef.requestFullscreen) {
+          await videoRef.requestFullscreen();
+        } else if ((videoRef as any).webkitRequestFullscreen) {
+          await (videoRef as any).webkitRequestFullscreen();
+        } else if ((videoRef as any).msRequestFullscreen) {
+          await (videoRef as any).msRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } catch (error) {
+        console.error('Error entering fullscreen:', error);
+      }
+    }
+  };
+
+  const exitFullscreen = async () => {
+    if (isFullscreen) {
+      try {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen();
+        }
+        setIsFullscreen(false);
+      } catch (error) {
+        console.error('Error exiting fullscreen:', error);
+      }
+    }
+  };
+
+  const handleSlideChange = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  useEffect(() => {
+    if (!carouselApi) return;
+
+    const onSelect = () => {
+      const index = carouselApi.selectedScrollSnap();
+      handleSlideChange(index);
+    };
+
+    carouselApi.on("select", onSelect);
+    return () => {
+      carouselApi.off("select", onSelect);
+    };
+  }, [carouselApi]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).msFullscreenElement
+      );
+      
+      if (!isCurrentlyFullscreen && isFullscreen) {
+        setIsFullscreen(false);
+        setIsPlaying(false);
+        if (videoRef) {
+          videoRef.pause();
+        }
+      } else if (isCurrentlyFullscreen && !isFullscreen) {
+        setIsFullscreen(true);
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, [isFullscreen, videoRef]);
+
+  useEffect(() => {
+    if (videoRef) {
+      if (isPlaying) {
+        videoRef.play().catch(error => {
+          console.error('Error playing video:', error);
+          setIsPlaying(false);
+        });
+      } else {
+        videoRef.pause();
+      }
+    }
+  }, [isPlaying, videoRef]);
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border/50">
-        <div className="container mx-auto px-6 py-4">
-          <Link to="/" className="inline-flex items-center space-x-2 text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-            <span>Back to Home</span>
-          </Link>
-        </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="space-y-4">
-                <h1 className="text-5xl font-bold">
-                  <span className="gradient-title">{projectDetails.title}</span>
-                </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed">
-                  {projectDetails.description}
-                </p>
-              </div>
-
-              {/* Project Meta */}
-              <div className="grid grid-cols-2 gap-6">
-                <div className="flex items-center space-x-3">
-                  <MapPin className="w-6 h-6 text-primary" />
-                  <div>
-                    <div className="text-sm text-muted-foreground">Location</div>
-                    <div className="font-medium">{projectDetails.location}</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Calendar className="w-6 h-6 text-primary" />
-                  <div>
-                    <div className="text-sm text-muted-foreground">Year</div>
-                    <div className="font-medium">{projectDetails.year}</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Users className="w-6 h-6 text-primary" />
-                  <div>
-                    <div className="text-sm text-muted-foreground">Client</div>
-                    <div className="font-medium">{projectDetails.client}</div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <Award className="w-6 h-6 text-primary" />
-                  <div>
-                    <div className="text-sm text-muted-foreground">Duration</div>
-                    <div className="font-medium">{projectDetails.duration}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="relative">
-              <img 
-                src={projectImage}
-                alt={projectDetails.title}
-                className="w-full h-[500px] object-cover rounded-2xl shadow-2xl"
-              />
-              <div className="absolute -bottom-8 -left-8 surface-elevated p-6 rounded-xl shadow-2xl border border-accent/20">
-                <div className="text-primary text-3xl font-bold">{projectDetails.category}</div>
-                <div className="text-muted-foreground">Architectural Excellence</div>
-              </div>
-            </div>
+      <Header />
+      <div className="max-w-6xl mx-auto px-4 pt-32 pb-12">
+        {/* Header */}
+        <div className="mb-12">
+          {/* Top Row: Back Button and Title */}
+          <div className="flex items-center justify-between mb-6">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                navigate('/');
+                setTimeout(() => {
+                  scrollToSection('projects');
+                }, 100);
+              }}
+              className="flex items-center gap-2 text-sm px-3 py-2"
+            >
+              ← Projects
+            </Button>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center flex-1">
+              Tikovina Custom Structures
+            </h1>
+            <div className="w-32"></div> {/* Spacer for balance */}
+          </div>
+          
+          {/* Project Details */}
+          <div className="flex flex-wrap justify-center gap-4">
+            <Badge variant="secondary" className="text-sm px-4 py-2">
+              Location: Bangalore, Karnataka
+            </Badge>
+            <Badge variant="secondary" className="text-sm px-4 py-2">
+              Year: 2023
+            </Badge>
+            <Badge variant="secondary" className="text-sm px-4 py-2">
+              Type: Custom Metal Structures
+            </Badge>
           </div>
         </div>
-      </section>
 
-      {/* Challenge & Solution */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16">
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold">
-                <span className="gradient-title">The Challenge</span>
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {projectDetails.challenge}
+        {/* Main Carousel */}
+        <div className="relative mb-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+            setApi={setCarouselApi}
+          >
+            <CarouselContent className="h-[600px] md:h-[700px]">
+              {mediaItems.map((item, index) => (
+                <CarouselItem key={index} className="relative">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="relative w-full h-full group flex items-center justify-center">
+                      <img
+                        src={item.src}
+                        alt={item.alt}
+                        className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                      />
+                      
+                      {/* Image Info Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl">
+                        <div className="absolute bottom-6 left-6 right-6">
+                          <h3 className="text-white text-xl font-semibold mb-2">
+                            {item.alt}
+                          </h3>
+                          <p className="text-white/80 text-sm">
+                            Tikovina Custom Structures Project - {index + 1} of {mediaItems.length}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
+
+          {/* Slide Indicators */}
+          <div className="flex justify-center mt-6 space-x-3">
+            {mediaItems.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  if (carouselApi) {
+                    carouselApi.scrollTo(index);
+                  }
+                }}
+                className={`w-16 h-12 rounded-lg overflow-hidden transition-all duration-300 border-2 ${
+                  index === currentSlide
+                    ? "border-primary scale-110 shadow-lg"
+                    : "border-muted-foreground/30 hover:border-muted-foreground/50 hover:scale-105"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              >
+                <img
+                  src={item.src}
+                  alt={`Thumbnail ${index}`}
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Project Description */}
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-6 text-foreground">
+            Project Overview
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            The Tikovina Custom Structures project demonstrates our capability in designing and fabricating 
+            unique architectural elements. We created bespoke metal structures that combine aesthetic appeal 
+            with structural integrity, delivering innovative solutions for modern architectural challenges.
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-6 text-left">
+            <div className="bg-card p-6 rounded-xl border border-accent/20">
+              <h3 className="font-semibold mb-3 text-foreground">Custom Design</h3>
+              <p className="text-muted-foreground">
+                Unique architectural elements designed to meet specific aesthetic and functional requirements.
               </p>
             </div>
-            <div className="space-y-6">
-              <h2 className="text-4xl font-bold">
-                <span className="gradient-title">Our Solution</span>
-              </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {projectDetails.solution}
+            <div className="bg-card p-6 rounded-xl border border-accent/20">
+              <h3 className="font-semibold mb-3 text-foreground">Precision Engineering</h3>
+              <p className="text-muted-foreground">
+                Advanced fabrication techniques ensuring perfect fit and finish for complex structural elements.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-accent/20">
+              <h3 className="font-semibold mb-3 text-foreground">Quality Craftsmanship</h3>
+              <p className="text-muted-foreground">
+                Expert workmanship delivering durable, long-lasting structures that exceed expectations.
               </p>
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Project Highlights */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">
-              <span className="gradient-title">Project Highlights</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Key features and innovations that set this project apart
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projectDetails.highlights.map((highlight, index) => (
-              <div 
-                key={highlight}
-                className="surface-elevated p-6 rounded-xl space-y-4 hover-lift transition-all duration-300"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <CheckCircle2 className="w-8 h-8 text-accent" />
-                <h3 className="text-lg font-bold">{highlight}</h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technical Specifications */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">
-              <span className="gradient-title">Technical Specifications</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Detailed specifications and engineering parameters
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projectDetails.specifications.map((spec, index) => (
-              <div 
-                key={spec}
-                className="surface-elevated p-4 rounded-lg text-center hover-lift transition-all duration-300"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="text-sm text-muted-foreground mb-2">
-                  {spec.split(':')[0]}
-                </div>
-                <div className="font-bold text-primary">
-                  {spec.split(':')[1]}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Value Propositions */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">
-              <span className="gradient-title">Value Propositions</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              How this project delivers exceptional value to the client
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {projectDetails.valuePropositions.map((proposition, index) => (
-              <div 
-                key={proposition.title}
-                className="surface-elevated p-8 rounded-xl space-y-4 hover-lift transition-all duration-300"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <proposition.icon className="w-12 h-12 text-primary" />
-                <h3 className="text-2xl font-bold">{proposition.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {proposition.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Results & Impact */}
-      <section className="py-20 bg-muted/30">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6">
-              <span className="gradient-title">Results & Impact</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Measurable outcomes and business impact achieved
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projectDetails.results.map((result, index) => (
-              <div 
-                key={result}
-                className="surface-elevated p-6 rounded-xl text-center space-y-3 hover-lift transition-all duration-300"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-full mx-auto flex items-center justify-center">
-                  <Award className="w-6 h-6 text-white" />
-                </div>
-                <p className="font-medium">{result}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="surface-elevated p-12 rounded-2xl text-center space-y-8">
-            <h2 className="text-4xl font-bold">
-              <span className="gradient-title">Ready for Your Project?</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Let's discuss how we can bring the same level of excellence and innovation to your architectural project.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="neon" size="lg">
-                Get a Quote
-              </Button>
-              <Button variant="outline" size="lg">
-                View More Projects
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      </div>
     </div>
   );
 };

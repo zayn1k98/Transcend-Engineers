@@ -10,10 +10,10 @@ const Projects = () => {
   const projects = [
     {
       title: "Zion Hills",
-      location: "Kolar, Bangalore",
+      location: "Kolar, Karnataka",
       year: "2023",
       type: "Roof Structures & Skylights",
-      description: "Modern steel roof structure with innovative skylight design for enhanced natural lighting.",
+      description: "",
       image: zionMain,
       tags: ["Commercial", "Skylights", "Roofing"]
     },
@@ -22,18 +22,18 @@ const Projects = () => {
       location: "Bangalore",
       year: "2023",
       type: "Industrial Setup",
-      description: "Custom industrial equipment housing and support structures for food processing facility.",
+      description: "",
       image: projectImage,
       tags: ["Industrial", "Equipment", "Food Processing"]
     },
     {
-      title: "Tikovina",
+      title: "Jubilant Foodworks",
       location: "Bangalore", 
       year: "2022",
-      type: "Custom Structures",
-      description: "Specialized metal fabrication for unique architectural requirements.",
+      type: "Food Processing Facility",
+      description: "",
       image: projectImage,
-      tags: ["Custom", "Architecture", "Precision"]
+      tags: ["Food Processing", "Industrial", "Facility"]
     }
   ];
 
@@ -129,8 +129,8 @@ const Projects = () => {
                       <ExternalLink className="w-4 h-4 ml-2" />
                     </Button>
                   </Link>
-                ) : project.title === "Tikovina" ? (
-                  <Link to="/tikovina-project">
+                ) : project.title === "Jubilant Foodworks" ? (
+                  <Link to="/jubilant-foodworks">
                     <Button 
                       variant="industrial" 
                       size="sm" 

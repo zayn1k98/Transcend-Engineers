@@ -5,7 +5,7 @@ import { motion, useAnimation } from "framer-motion";
 const images = import.meta.glob("../assets/clients/*.{jpg,png}", { eager: true, as: 'url' });
 const clientImages = Object.values(images) as string[];
 
-export const ClientsCarousel = ({ speed = 37.5 }: { speed?: number }) => {
+export const ClientsCarousel = ({ speed = 120 }: { speed?: number }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const controls = useAnimation();
 
@@ -14,12 +14,12 @@ export const ClientsCarousel = ({ speed = 37.5 }: { speed?: number }) => {
       controls.stop();
     } else {
       controls.start({
-        x: ["0%", "-100%"],
+        x: ["0%", "-200%"],
         transition: {
           x: {
             repeat: Infinity,
             repeatType: "loop",
-            duration: speed,
+            duration: speed * 2,
             ease: "linear",
           },
         },
@@ -27,8 +27,8 @@ export const ClientsCarousel = ({ speed = 37.5 }: { speed?: number }) => {
     }
   }, [isHovered, speed, controls]);
 
-  // Duplicate images for seamless looping
-  const carouselImages = [...clientImages, ...clientImages];
+  // Duplicate images multiple times for seamless looping
+  const carouselImages = [...clientImages, ...clientImages, ...clientImages, ...clientImages];
 
   return (
     <div
@@ -58,7 +58,7 @@ export const ClientsCarousel = ({ speed = 37.5 }: { speed?: number }) => {
         {carouselImages.map((img, idx) => (
           <div
             key={idx}
-            className="mx-8 flex-shrink-0 flex items-center justify-center group"
+            className="mx-8 flex-shrink-0 flex items-center justify-center group bg-white rounded-lg shadow-sm"
             style={{ width: 140, height: 120 }}
           >
             <img

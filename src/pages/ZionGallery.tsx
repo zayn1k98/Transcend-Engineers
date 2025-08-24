@@ -9,7 +9,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import { useScrollToSection } from "@/hooks/useScrollToSection";
 
 // Import assets properly
 import zionVideo from "@/assets/zion/zion-assets/zionhills.mp4";
@@ -27,6 +29,8 @@ const ZionGallery = () => {
   const [carouselApi, setCarouselApi] = useState<any>(null);
   const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const navigate = useNavigate();
+  const scrollToSection = useScrollToSection();
 
   // Media items in order: video first, then images
   const mediaItems = [
@@ -190,21 +194,37 @@ const ZionGallery = () => {
   }, [isPlaying, videoRef]);
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="max-w-6xl mx-auto px-4">
+    <div className="min-h-screen bg-background">
+      <Header />
+      <div className="max-w-6xl mx-auto px-4 pt-32 pb-12">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 gradient-title">
-            Zion Hills Project
-          </h1>
-          <p className="text-xl text-muted-foreground mb-6">
-            Modern steel roof structure with innovative skylight design for enhanced natural lighting
-          </p>
+        <div className="mb-12">
+          {/* Top Row: Back Button and Title */}
+          <div className="flex items-center justify-between mb-6">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                navigate('/');
+                // Use setTimeout to ensure navigation completes before scrolling
+                setTimeout(() => {
+                  scrollToSection('projects');
+                }, 100);
+              }}
+              className="flex items-center gap-2 text-sm px-3 py-2"
+            >
+              ← Projects
+            </Button>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center flex-1">
+              Zion Hills
+            </h1>
+            <div className="w-32"></div> {/* Spacer for balance */}
+          </div>
           
           {/* Project Details */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
+          <div className="flex flex-wrap justify-center gap-4">
             <Badge variant="secondary" className="text-sm px-4 py-2">
-              Location: Kolar, Bangalore
+              Location: Kolar, Karnataka
             </Badge>
             <Badge variant="secondary" className="text-sm px-4 py-2">
               Year: 2023
@@ -213,13 +233,6 @@ const ZionGallery = () => {
               Type: Roof Structures & Skylights
             </Badge>
           </div>
-
-          {/* Back to Projects */}
-          <Link to="/#projects">
-            <Button variant="outline" className="mb-8">
-              ← Back to Projects
-            </Button>
-          </Link>
         </div>
 
         {/* Main Carousel */}

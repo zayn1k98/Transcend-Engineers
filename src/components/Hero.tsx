@@ -20,6 +20,7 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 flex flex-col justify-center py-32 sm:py-24 md:py-32 lg:py-40">
+        
         {/* Centered Content */}
         <div className="max-w-4xl mx-auto px-6 w-full">
           <div className="text-center text-white space-y-8">

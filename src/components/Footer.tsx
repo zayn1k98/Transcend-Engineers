@@ -79,7 +79,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-accent/20 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-muted-foreground text-sm">
-            © 2024 Transcend Engineers. All rights reserved.
+            © 2025 Transcend Engineers. All rights reserved.
           </p>
           
           <Button 
