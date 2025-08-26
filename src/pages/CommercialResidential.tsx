@@ -1,181 +1,384 @@
-import React from 'react';
-import Header from '../components/Header';
-import { Building2, Home, Users, Award, CheckCircle2, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import { useScrollToSection } from "@/hooks/useScrollToSection";
+
+// Resixcomm assets - using dynamic imports for files with spaces
+const resixcommAssets = {
+  image1: new URL('@/assets/Resixcomm/20220713_160913.jpg', import.meta.url).href,
+  image2: new URL('@/assets/Resixcomm/3.jpg', import.meta.url).href,
+  image3: new URL('@/assets/Resixcomm/Glass Skylight2.JPG', import.meta.url).href,
+  image4: new URL('@/assets/Resixcomm/IMG-20170209-WA0018.jpg', import.meta.url).href,
+  video: new URL('@/assets/Resixcomm/REsixCOmm_Voiceover.mp4', import.meta.url).href,
+};
 
 const CommercialResidential = () => {
-  const services = [
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [carouselApi, setCarouselApi] = useState<any>(null);
+  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const navigate = useNavigate();
+  const scrollToSection = useScrollToSection();
+
+  // Resixcomm media items
+  const mediaItems = [
     {
-      title: "Commercial Spaces",
-      description: "Office buildings, retail spaces, and commercial complexes with modern metalwork solutions.",
-      features: ["Structural steel frameworks", "Custom staircases", "Balustrades and railings", "Canopies and awnings"]
+      type: "video",
+      src: resixcommAssets.video,
+      thumbnail: resixcommAssets.image1,
+      alt: "Resixcomm Project - Video Overview"
     },
     {
-      title: "Residential Projects",
-      description: "Luxury homes and residential complexes featuring premium metal fabrication.",
-      features: ["Custom gates and fencing", "Staircase systems", "Balcony railings", "Garden structures"]
+      type: "image",
+      src: resixcommAssets.image1,
+      alt: "Resixcomm Project - Commercial Structure"
     },
     {
-      title: "Mixed-Use Developments",
-      description: "Integrated spaces combining commercial and residential elements.",
-      features: ["Multi-level structures", "Common area features", "Security systems", "Aesthetic elements"]
+      type: "image",
+      src: resixcommAssets.image2,
+      alt: "Resixcomm Project - Architectural Detail"
+    },
+    {
+      type: "image",
+      src: resixcommAssets.image3,
+      alt: "Resixcomm Project - Glass Skylight Installation"
+    },
+    {
+      type: "image",
+      src: resixcommAssets.image4,
+      alt: "Resixcomm Project - Construction Progress"
     }
   ];
 
-  const projects = [
-    {
-      name: "Licious Corporate Office",
-      description: "Modern office space with custom metalwork features",
-      image: "/api/placeholder/400/300",
-      category: "Commercial"
-    },
-    {
-      name: "Tikovina Residential Complex",
-      description: "Luxury residential development with premium metalwork",
-      image: "/api/placeholder/400/300",
-      category: "Residential"
+  const handleVideoPlayPause = () => {
+    if (!isPlaying) {
+      setIsPlaying(true);
+      enterFullscreen();
+    } else {
+      setIsPlaying(false);
+      exitFullscreen();
     }
-  ];
+  };
+
+  const handleVideoResume = () => {
+    setIsPlaying(true);
+    enterFullscreen();
+  };
+
+  const handleVideoMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  const enterFullscreen = async () => {
+    if (videoRef && !isFullscreen) {
+      try {
+        if (videoRef.requestFullscreen) {
+          await videoRef.requestFullscreen();
+        } else if ((videoRef as any).webkitRequestFullscreen) {
+          await (videoRef as any).webkitRequestFullscreen();
+        } else if ((videoRef as any).msRequestFullscreen) {
+          await (videoRef as any).msRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } catch (error) {
+        console.error('Error entering fullscreen:', error);
+      }
+    }
+  };
+
+  const exitFullscreen = async () => {
+    if (isFullscreen) {
+      try {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen();
+        }
+        setIsFullscreen(false);
+      } catch (error) {
+        console.error('Error exiting fullscreen:', error);
+      }
+    }
+  };
+
+  const handleSlideChange = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  useEffect(() => {
+    if (!carouselApi) return;
+
+    const onSelect = () => {
+      const index = carouselApi.selectedScrollSnap();
+      handleSlideChange(index);
+    };
+
+    carouselApi.on("select", onSelect);
+    return () => {
+      carouselApi.off("select", onSelect);
+    };
+  }, [carouselApi]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).msFullscreenElement
+      );
+      
+      if (!isCurrentlyFullscreen && isFullscreen) {
+        setIsFullscreen(false);
+        setIsPlaying(false);
+        if (videoRef) {
+          videoRef.pause();
+        }
+      } else if (isCurrentlyFullscreen && !isFullscreen) {
+        setIsFullscreen(true);
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, [isFullscreen, videoRef]);
+
+  useEffect(() => {
+    if (videoRef) {
+      if (isPlaying) {
+        videoRef.play().catch(error => {
+          console.error('Error playing video:', error);
+          setIsPlaying(false);
+        });
+      } else {
+        videoRef.pause();
+      }
+    }
+  }, [isPlaying, videoRef]);
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
-      <div className="pt-16">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="flex justify-center mb-6">
-                <div className="bg-white/10 backdrop-blur-md rounded-full p-4">
-                  <Building2 className="w-12 h-12" />
-                </div>
-              </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                <span className="text-glow">Commercial</span>
-                <span className="gradient-title ml-4">&</span>
-                <span className="text-glow ml-4">Residential</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-blue-100 mb-8 leading-relaxed">
-                Transforming spaces with precision metalwork solutions for commercial and residential environments
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="bg-white/10 backdrop-blur-md rounded-lg px-6 py-3">
-                  <span className="font-semibold">15+ Years Experience</span>
-                </div>
-                <div className="bg-white/10 backdrop-blur-md rounded-lg px-6 py-3">
-                  <span className="font-semibold">200+ Projects Completed</span>
-                </div>
-                <div className="bg-white/10 backdrop-blur-md rounded-lg px-6 py-3">
-                  <span className="font-semibold">Premium Quality</span>
-                </div>
-              </div>
-            </div>
+      <div className="max-w-6xl mx-auto px-4 pt-32 pb-12">
+        {/* Header */}
+        <div className="mb-12">
+          {/* Top Row: Back Button and Title */}
+          <div className="flex items-center justify-between mb-6">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => {
+                navigate('/');
+                setTimeout(() => {
+                  scrollToSection('verticals');
+                }, 100);
+              }}
+              className="flex items-center gap-2 text-sm px-3 py-2"
+            >
+              ← Verticals
+            </Button>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center flex-1 break-words px-4">
+              Residential & Commercial
+            </h1>
+            <div className="w-32"></div> {/* Spacer for balance */}
           </div>
-        </section>
+          
+          {/* Project Details */}
+          <div className="flex flex-wrap justify-center gap-4">
+            <Badge variant="secondary" className="text-sm px-4 py-2">
+              Location: Residential & Commercial
+            </Badge>
+            <Badge variant="secondary" className="text-sm px-4 py-2">
+              Year: 2022
+            </Badge>
+            <Badge variant="secondary" className="text-sm px-4 py-2">
+              Type: Residential & Commercial Structures
+            </Badge>
+          </div>
+        </div>
 
-        {/* Services Section */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                <span className="text-glow">Our</span>
-                <span className="gradient-title ml-4">Services</span>
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Comprehensive metalwork solutions tailored for commercial and residential spaces, 
-                combining functionality with aesthetic excellence.
-              </p>
-            </div>
+        {/* Main Carousel */}
+        <div className="relative mb-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+            setApi={setCarouselApi}
+          >
+            <CarouselContent className="h-[600px] md:h-[700px]">
+              {mediaItems.map((item, index) => (
+                <CarouselItem key={index} className="relative">
+                  <div className="w-full h-full flex items-center justify-center">
+                    {item.type === "video" ? (
+                      <div className="relative w-full h-full group flex items-center justify-center">
+                        <video
+                          ref={(el) => {
+                            if (el) {
+                              setVideoRef(el);
+                              el.muted = isMuted;
+                            }
+                          }}
+                          className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
+                          poster={item.thumbnail}
+                          loop
+                          muted={isMuted}
+                          autoPlay
+                          onPlay={() => setIsPlaying(true)}
+                          onPause={() => setIsPlaying(false)}
+                        >
+                          <source src={item.src} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                        
+                        {/* Video Controls Overlay */}
+                        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl">
+                          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex items-center gap-4 bg-black/50 backdrop-blur-sm rounded-full px-6 py-3">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={isPlaying ? handleVideoPlayPause : handleVideoResume}
+                              className="text-white hover:bg-white/20"
+                            >
+                              {isPlaying ? (
+                                <Pause className="w-5 h-5" />
+                              ) : (
+                                <Play className="w-5 h-5" />
+                              )}
+                            </Button>
+                            
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={handleVideoMute}
+                              className="text-white hover:bg-white/20"
+                            >
+                              {isMuted ? (
+                                <VolumeX className="w-5 h-5" />
+                              ) : (
+                                <Volume2 className="w-5 h-5" />
+                              )}
+                            </Button>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <div key={index} className="surface-elevated rounded-2xl p-8 hover-lift transition-all duration-300">
-                  <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl p-4 w-16 h-16 flex items-center justify-center mb-6">
-                    {index === 0 ? (
-                      <Building2 className="w-8 h-8 text-white" />
-                    ) : index === 1 ? (
-                      <Home className="w-8 h-8 text-white" />
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={enterFullscreen}
+                              className="text-white hover:bg-white/20"
+                              title="Enter Fullscreen"
+                            >
+                              <Maximize2 className="w-5 h-5" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
                     ) : (
-                      <Users className="w-8 h-8 text-white" />
+                      <div className="relative w-full h-full group flex items-center justify-center">
+                        <img
+                          src={item.src}
+                          alt={item.alt}
+                          className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
                     )}
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-800">{service.title}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
-                  <ul className="space-y-3">
-                    {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center text-gray-700">
-                        <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                </CarouselItem>
               ))}
-            </div>
-          </div>
-        </section>
+            </CarouselContent>
+            
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
 
-        {/* Projects Showcase */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                <span className="text-glow">Featured</span>
-                <span className="gradient-title ml-4">Projects</span>
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Explore our portfolio of commercial and residential projects that showcase 
-                our expertise in metal fabrication and design.
+          {/* Slide Indicators */}
+          <div className="flex justify-center mt-6 space-x-3">
+            {mediaItems.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  if (carouselApi) {
+                    carouselApi.scrollTo(index);
+                  }
+                }}
+                className={`w-16 h-12 rounded-lg overflow-hidden transition-all duration-300 border-2 ${
+                  index === currentSlide
+                    ? "border-primary scale-110 shadow-lg"
+                    : "border-muted-foreground/30 hover:border-muted-foreground/50 hover:scale-105"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              >
+                {item.type === "video" ? (
+                  <div className="w-full h-full bg-black/50 flex items-center justify-center">
+                    <Play className="w-4 h-4 text-white" />
+                  </div>
+                ) : (
+                  <img
+                    src={item.src}
+                    alt={`Thumbnail ${index}`}
+                    className="w-full h-full object-cover"
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Project Description */}
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-6 text-foreground">
+            Project Overview
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            The Resixcomm project represents our expertise in commercial and residential metal fabrication. 
+            This comprehensive project showcases our ability to deliver complex structural solutions, 
+            including glass skylight installations and custom metalwork that combines functionality with aesthetic excellence.
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-6 text-left">
+            <div className="bg-card p-6 rounded-xl border border-accent/20">
+              <h3 className="font-semibold mb-3 text-foreground">Structural Excellence</h3>
+              <p className="text-muted-foreground">
+                Advanced metal fabrication techniques ensuring structural integrity and long-term durability for commercial applications.
               </p>
             </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {projects.map((project, index) => (
-                <div key={index} className="surface-elevated rounded-2xl overflow-hidden hover-lift transition-all duration-300">
-                  <div className="aspect-video bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center">
-                    <span className="text-white text-lg font-semibold">{project.name}</span>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xl font-bold text-gray-800">{project.name}</h3>
-                      <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                        {project.category}
-                      </span>
-                    </div>
-                    <p className="text-gray-600 mb-4">{project.description}</p>
-                    <button className="flex items-center text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                      View Project <ArrowRight className="w-4 h-4 ml-2" />
-                    </button>
-                  </div>
-                </div>
-              ))}
+            <div className="bg-card p-6 rounded-xl border border-accent/20">
+              <h3 className="font-semibold mb-3 text-foreground">Glass Integration</h3>
+              <p className="text-muted-foreground">
+                Precision glass skylight installations that maximize natural lighting while maintaining structural stability and weather resistance.
+              </p>
+            </div>
+            <div className="bg-card p-6 rounded-xl border border-accent/20">
+              <h3 className="font-semibold mb-3 text-foreground">Design Innovation</h3>
+              <p className="text-muted-foreground">
+                Custom metalwork solutions that blend seamlessly with architectural design, creating functional and visually appealing structures.
+              </p>
             </div>
           </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
-              Ready to Transform Your Space?
-            </h2>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Let's discuss your commercial or residential metalwork requirements and create 
-              something extraordinary together.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Get Free Consultation
-              </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-900 transition-colors">
-                View Portfolio
-              </button>
-            </div>
-          </div>
-        </section>
+        </div>
       </div>
     </div>
   );
 };
 
-export default CommercialResidential; 
+export default CommercialResidential;

@@ -84,7 +84,7 @@ const SearchModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
     // Service categories
     {
       id: 'commercial-residential',
-      title: 'Commercial & Residential',
+      title: 'Residential & Commercial',
       description: 'Metal fabrication services for commercial spaces and residential projects including clubhouses, canopies, skylights, and staircases.',
       url: '/commercial-residential',
       type: 'page',

@@ -186,7 +186,7 @@ const Header = () => {
                     <div className="py-2">
                       <Link to="/commercial-residential" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
                         <span className="relative inline-block">
-                          Commercial & Residential
+                          Residential & Commercial
                         </span>
                       </Link>
                       <Link to="/f&b" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
@@ -286,7 +286,7 @@ const Header = () => {
                             onClick={() => setIsMenuOpen(false)}
                           >
                             <span className="relative inline-block">
-                              Commercial & Residential
+                              Residential & Commercial
                             </span>
                           </Link>
                           <Link
