@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Search, ChevronDown, ChevronUp, Building, Utensils, Heart, Factory, Home, Loader } from "lucide-react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import logoImg from "@/assets/logo.png";
 import { useScrollToSection } from "../hooks/useScrollToSection";
 import SearchModal from "./SearchModal";
@@ -13,6 +13,7 @@ const Header = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const scrollToSection = useScrollToSection();
   const location = useLocation();
+  const headerRef = useRef<HTMLDivElement>(null);
 
   const navigationItems = [
     { name: "Projects", href: "/#projects", hasDropdown: true, isAnchor: true, path: "/", pageHref: "/all-projects" },
@@ -42,8 +43,27 @@ const Header = () => {
     return location.pathname === item.path;
   };
 
+  // Handle click outside to close mobile menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+        setIsVerticalsOpen(false);
+        setIsProjectsOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
+
   return (
-    <header className="fixed top-4 left-4 right-4 z-50">
+    <header className="fixed top-4 left-4 right-4 z-50" ref={headerRef}>
       <div className="bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 shadow-2xl">
         <div className="container mx-auto px-4 xs:px-5 sm:px-6">
           <div className="flex items-center justify-between py-3 xs:py-3.5 sm:py-4 relative">
