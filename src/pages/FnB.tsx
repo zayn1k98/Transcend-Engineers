@@ -50,7 +50,7 @@ const FnB = () => {
                   <Utensils className="w-12 h-12" />
                 </div>
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <h1 className="text-4xl md:text-6xl mb-6">
                 <span className="text-glow">Food</span>
                 <span className="gradient-title ml-4">&</span>
                 <span className="text-glow ml-4">Beverage</span>
@@ -77,7 +77,7 @@ const FnB = () => {
         <section className="py-20 bg-white">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              <h2 className="text-3xl md:text-5xl mb-6">
                 <span className="text-glow">Our</span>
                 <span className="gradient-title ml-4">Services</span>
               </h2>
@@ -99,7 +99,7 @@ const FnB = () => {
                       <ChefHat className="w-8 h-8 text-white" />
                     )}
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 text-gray-800">{service.title}</h3>
+                  <h3 className="text-2xl mb-4 text-gray-800">{service.title}</h3>
                   <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
                   <ul className="space-y-3">
                     {service.features.map((feature, featureIndex) => (
@@ -119,7 +119,7 @@ const FnB = () => {
         <section className="py-20 bg-gray-50">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+              <h2 className="text-3xl md:text-5xl mb-6">
                 <span className="text-glow">Featured</span>
                 <span className="gradient-title ml-4">Projects</span>
               </h2>
@@ -137,7 +137,7 @@ const FnB = () => {
                   </div>
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xl font-bold text-gray-800">{project.name}</h3>
+                      <h3 className="text-xl text-gray-800">{project.name}</h3>
                       <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
                         {project.category}
                       </span>
@@ -156,7 +156,7 @@ const FnB = () => {
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-amber-900 via-orange-800 to-red-900 text-white">
           <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl md:text-5xl font-bold mb-6">
+            <h2 className="text-3xl md:text-5xl mb-6">
               Ready to Elevate Your Dining Experience?
             </h2>
             <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">

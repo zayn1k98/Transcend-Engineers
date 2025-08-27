@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const About = () => {
   const stats = [
-    { value: "20+", label: "years in business", color: "bg-primary/10 text-primary" },
+    { value: "25+", label: "years in business", color: "bg-primary/10 text-primary" },
     { value: "50+", label: "Projects", color: "bg-accent/10 text-accent" },
     { value: "4+", label: "Industries", color: "bg-primary/20 text-primary" },
     { value: "20+", label: "Elite Clients", color: "bg-accent/20 text-accent" }
@@ -21,7 +21,7 @@ const About = () => {
                 <span className="text-glow">About</span>
                 <span className="gradient-title ml-4">Us</span>
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg text-black leading-relaxed">
                 Blending experience, innovation, and craftsmanship – we deliver precision metalwork with clean design, structural strength, and unmatched detail.
               </p>
             </div>
@@ -30,7 +30,7 @@ const About = () => {
               {stats.map((stat, index) => (
                 <div 
                   key={stat.label}
-                  className={`text-center space-y-3 p-6 rounded-lg hover-lift ${stat.color}`}
+                  className={`text-center space-y-3 p-6 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 group ${stat.color} hover:bg-primary hover:text-white`}
                 >
                   <div className="text-4xl font-bold">{stat.value}</div>
                   <div className="text-sm font-medium px-3 py-1 rounded-full inline-block">

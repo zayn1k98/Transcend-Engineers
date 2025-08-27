@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Search, ChevronDown, ChevronUp } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Building, Utensils, Heart, Factory, Home, Loader } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import logoImg from "@/assets/logo.png";
@@ -34,7 +34,7 @@ const Header = () => {
         "/f&b", 
         "/healthcare",
         "/industrial",
-        "/residential",
+
         "/upcoming"
       ];
       return verticalPages.includes(location.pathname);
@@ -64,11 +64,21 @@ const Header = () => {
                 <img src={logoImg} alt="Transcend Engineers Logo" className="w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 object-cover rounded-lg" />
               </Link>
               
-              {/* Text in Center - Absolute positioning for perfect centering */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span className="text-white font-semibold text-xs xs:text-sm sm:text-base text-center leading-tight px-2 max-w-[140px] xs:max-w-[160px] sm:max-w-[180px] break-words">
+              {/* Text in Center - Clickable link to homepage */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Link 
+                  to="/" 
+                  onClick={(e) => {
+                    if (location.pathname === "/") {
+                      e.preventDefault();
+                      // If already on home page, scroll to top
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                  }}
+                  className="text-white font-semibold text-xs xs:text-sm sm:text-base text-center leading-tight px-2 max-w-[140px] xs:max-w-[160px] sm:max-w-[180px] break-words hover:text-white/80 transition-colors duration-200"
+                >
                   TRANSCEND ENGINEERS
-                </span>
+                </Link>
               </div>
               
               {/* Menu on Right */}
@@ -182,35 +192,36 @@ const Header = () => {
                   )
                 )}
                 {item.hasDropdown && item.name === "Verticals" && (
-                  <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-white/20">
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-white/95 backdrop-blur-md rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-white/20">
                     <div className="py-2">
                       <Link to="/commercial-residential" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
-                        <span className="relative inline-block">
-                          Residential & Commercial
+                        <span className="relative inline-block flex items-start gap-2">
+                          <Building className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                          <span className="leading-tight">Residential &<br />Commercial</span>
                         </span>
                       </Link>
                       <Link to="/f&b" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
-                        <span className="relative inline-block">
+                        <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                          <Utensils className="w-4 h-4 flex-shrink-0" />
                           F&B
                         </span>
                       </Link>
                       <Link to="/healthcare" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
-                        <span className="relative inline-block">
+                        <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                          <Heart className="w-4 h-4 flex-shrink-0" />
                           Healthcare
                         </span>
                       </Link>
                       <Link to="/industrial" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
-                        <span className="relative inline-block">
+                        <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                          <Factory className="w-4 h-4 flex-shrink-0" />
                           Industrial
                         </span>
                       </Link>
-                      <Link to="/residential" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
-                        <span className="relative inline-block">
-                          Residential
-                        </span>
-                      </Link>
+
                       <Link to="/upcoming" className="block px-4 py-2 text-gray-800 hover:bg-[#14b8a6] hover:text-white hover:shadow-2xl hover:scale-105 transition-all duration-300 rounded-lg mx-2 hover:border hover:border-[#14b8a6] relative">
-                        <span className="relative inline-block">
+                        <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                          <Loader className="w-4 h-4 flex-shrink-0" />
                           Upcoming
                         </span>
                       </Link>
@@ -285,8 +296,9 @@ const Header = () => {
                             className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
-                              Residential & Commercial
+                            <span className="relative inline-block flex items-start gap-2">
+                              <Building className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                              <span className="leading-tight">Residential &<br />Commercial</span>
                             </span>
                           </Link>
                           <Link
@@ -294,7 +306,8 @@ const Header = () => {
                             className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
+                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                              <Utensils className="w-4 h-4 flex-shrink-0" />
                               F&B
                             </span>
                           </Link>
@@ -303,7 +316,8 @@ const Header = () => {
                             className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
+                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                              <Heart className="w-4 h-4 flex-shrink-0" />
                               Healthcare
                             </span>
                           </Link>
@@ -312,25 +326,19 @@ const Header = () => {
                             className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
+                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                              <Factory className="w-4 h-4 flex-shrink-0" />
                               Industrial
                             </span>
                           </Link>
-                          <Link
-                            to="/residential"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
-                            onClick={() => setIsMenuOpen(false)}
-                          >
-                            <span className="relative inline-block">
-                              Residential
-                            </span>
-                          </Link>
+
                           <Link
                             to="/upcoming"
                             className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
+                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                              <Loader className="w-4 h-4 flex-shrink-0" />
                               Upcoming
                             </span>
                           </Link>

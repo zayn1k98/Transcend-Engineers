@@ -1,9 +1,10 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Calendar, MapPin } from "lucide-react";
+import { ExternalLink, MapPin } from "lucide-react";
 import projectImage from "@/assets/project-1.jpg";
 import zionMain from "@/assets/zion/zion-main.avif";
+import liciousLogo from "@/assets/clients/Licious-Logo-500x281.png";
 import { Link } from "react-router-dom";
 
 const Projects = () => {
@@ -15,7 +16,7 @@ const Projects = () => {
       type: "Roof Structures & Skylights",
       description: "",
       image: zionMain,
-      tags: ["Commercial", "Skylights", "Roofing"]
+      tags: ["Commercial", "Clubhouse", "Pergolas", "Louvers"]
     },
     {
       title: "Licious",
@@ -23,7 +24,7 @@ const Projects = () => {
       year: "2023",
       type: "Industrial Setup",
       description: "",
-      image: projectImage,
+      image: liciousLogo,
       tags: ["Industrial", "Equipment", "Food Processing"]
     },
     {
@@ -60,18 +61,20 @@ const Projects = () => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Project Image */}
-              <div className="relative overflow-hidden h-48">
-                <img 
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-                
-                {/* Year Badge */}
-                <Badge className="absolute top-4 right-4 bg-primary/90 text-white">
-                  {project.year}
-                </Badge>
+              <div className="relative overflow-hidden h-48 flex items-center justify-center bg-slate-50">
+                {project.title === "Licious" ? (
+                  <img 
+                    src={project.image}
+                    alt={project.title}
+                    className="w-48 h-24 object-contain transition-transform duration-700 group-hover:scale-110"
+                  />
+                ) : (
+                  <img 
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                )}
               </div>
               
               {/* Project Content */}
@@ -87,10 +90,7 @@ const Projects = () => {
                     <MapPin className="w-4 h-4 mr-2 text-accent" />
                     {project.location}
                   </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Calendar className="w-4 h-4 mr-2 text-accent" />
-                    {project.type}
-                  </div>
+
                 </div>
                 
                 {/* Tags */}

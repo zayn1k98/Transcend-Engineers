@@ -6,26 +6,22 @@ const images = import.meta.glob("../assets/clients/*.{jpg,png}", { eager: true, 
 const clientImages = Object.values(images) as string[];
 
 export const ClientsCarousel = ({ speed = 120 }: { speed?: number }) => {
-  const [isHovered, setIsHovered] = React.useState(false);
   const controls = useAnimation();
 
   React.useEffect(() => {
-    if (isHovered) {
-      controls.stop();
-    } else {
-      controls.start({
-        x: ["0%", "-200%"],
-        transition: {
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: speed * 2,
-            ease: "linear",
-          },
+    // Always keep the carousel running, regardless of hover state
+    controls.start({
+      x: ["0%", "-200%"],
+      transition: {
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: speed * 2,
+          ease: "linear",
         },
-      });
-    }
-  }, [isHovered, speed, controls]);
+      },
+    });
+  }, [speed, controls]);
 
   // Duplicate images multiple times for seamless looping
   const carouselImages = [...clientImages, ...clientImages, ...clientImages, ...clientImages];
@@ -33,8 +29,6 @@ export const ClientsCarousel = ({ speed = 120 }: { speed?: number }) => {
   return (
     <div
       className="relative w-full overflow-hidden py-8 bg-background"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       style={{ minHeight: 100 }}
     >
       {/* Clientele Title */}

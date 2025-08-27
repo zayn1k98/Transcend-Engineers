@@ -15,7 +15,7 @@ import CommercialResidential from "./pages/CommercialResidential";
 import FnB from "./pages/FnB";
 import Healthcare from "./pages/Healthcare";
 import Industrial from "./pages/Industrial";
-import Residential from "./pages/Residential";
+
 import Upcoming from "./pages/Upcoming";
 import AllProjects from "./pages/AllProjects";
 import ContactUs from "./pages/ContactUs";
@@ -39,7 +39,7 @@ const App = () => (
           <Route path="/f&b" element={<FnB />} />
           <Route path="/healthcare" element={<Healthcare />} />
           <Route path="/industrial" element={<Industrial />} />
-          <Route path="/residential" element={<Residential />} />
+
           <Route path="/upcoming" element={<Upcoming />} />
           <Route path="/all-projects" element={<AllProjects />} />
           <Route path="/contact-us" element={<ContactUs />} />

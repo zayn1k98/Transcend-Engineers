@@ -152,17 +152,7 @@ const ContactUs = () => {
                   ))}
                 </div>
 
-                {/* Map Placeholder */}
-                <Card className="p-6 bg-card border-accent/20">
-                  <h4 className="font-semibold text-foreground mb-4">Find Us</h4>
-                  <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center">
-                    <div className="text-center text-muted-foreground">
-                      <MapPin className="w-12 h-12 mx-auto mb-2 text-accent" />
-                      <p>Interactive Map</p>
-                      <p className="text-sm">Siddapura, Bengaluru</p>
-                    </div>
-                  </div>
-                </Card>
+
               </div>
             </div>
           </div>

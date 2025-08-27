@@ -55,7 +55,7 @@ const AboutUs = () => {
                 <span className="gradient-title ml-4">Us</span>
               </h1>
             </div>
-            <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+            <p className="text-xl text-black max-w-4xl mx-auto leading-relaxed">
               <strong>Transcend Engineers</strong> brings together experience, innovation, and craftsmanship to deliver precision-driven metal fabrication solutions. With a <strong>wide portfolio across industries</strong>, our work stands out for its attention to detail, structural integrity, and clean, functional design. Every project reflects our commitment to <strong>quality</strong> and <strong>creative problem-solving</strong>.
             </p>
           </div>
@@ -69,9 +69,10 @@ const AboutUs = () => {
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-6">
-              <span className="gradient-title">Our Services</span>
+              <span className="text-glow">Our</span>
+              <span className="gradient-title ml-4">Services</span>
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-black max-w-2xl mx-auto">
               Comprehensive metal fabrication solutions across diverse industries and applications.
             </p>
           </div>
@@ -114,7 +115,7 @@ const AboutUs = () => {
             <h2 className="text-4xl font-bold">
               <span className="gradient-title">Ready to bring your vision to life?</span>
             </h2> 
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-black max-w-2xl mx-auto">
                Let's discuss your project requirements and create something extraordinary together.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

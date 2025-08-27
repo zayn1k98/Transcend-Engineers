@@ -114,14 +114,7 @@ const SearchModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
       type: 'page',
       icon: Building
     },
-    {
-      id: 'residential',
-      title: 'Residential',
-      description: 'Custom gates, staircases, balconies, railings, and outdoor furniture for residential projects.',
-      url: '/residential',
-      type: 'page',
-      icon: Building
-    },
+
     {
       id: 'upcoming',
       title: 'Upcoming Services',

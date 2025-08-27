@@ -4,7 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 export function RollingGallery({
   images,
   speed = 40,
-  pauseOnHover = true,
+  pauseOnHover = false,
   className = "",
 }: {
   images: string[];

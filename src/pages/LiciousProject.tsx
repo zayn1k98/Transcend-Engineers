@@ -12,6 +12,8 @@ import { Play, Pause, Volume2, VolumeX, Maximize2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import { useScrollToSection } from "@/hooks/useScrollToSection";
+import trayRackTrolleys from "@/assets/F&B/Tray Rack Trolleys.jpg";
+import trolleys from "@/assets/F&B/Trolleys.jpg";
 
 const LiciousProject = () => {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -23,32 +25,17 @@ const LiciousProject = () => {
   const navigate = useNavigate();
   const scrollToSection = useScrollToSection();
 
-  // Placeholder media items - you can replace these with actual assets later
+  // Media items using F&B photos only
   const mediaItems = [
     {
       type: "image",
-      src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Food Processing Facility"
+      src: trayRackTrolleys,
+      alt: "Licious Industrial - Tray Rack Trolleys"
     },
     {
       type: "image",
-      src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Custom Metal Fabrication"
-    },
-    {
-      type: "image",
-      src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Stainless Steel Structures"
-    },
-    {
-      type: "image",
-      src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Industrial Setup"
-    },
-    {
-      type: "image",
-      src: "/placeholder-project.jpg",
-      alt: "Licious Industrial - Quality Control"
+      src: trolleys,
+      alt: "Licious Industrial - Trolleys"
     }
   ];
 
@@ -192,19 +179,6 @@ const LiciousProject = () => {
             </h1>
             <div className="w-32"></div> {/* Spacer for balance */}
           </div>
-          
-          {/* Project Details */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Location: Bangalore, Karnataka
-            </Badge>
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Year: 2023
-            </Badge>
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Type: Industrial Setup & Fabrication
-            </Badge>
-          </div>
         </div>
 
         {/* Main Carousel */}
@@ -228,17 +202,7 @@ const LiciousProject = () => {
                         className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
                       />
                       
-                      {/* Image Info Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl">
-                        <div className="absolute bottom-6 left-6 right-6">
-                          <h3 className="text-white text-xl font-semibold mb-2">
-                            {item.alt}
-                          </h3>
-                          <p className="text-white/80 text-sm">
-                            Licious Industrial Project - {index + 1} of {mediaItems.length}
-                          </p>
-                        </div>
-                      </div>
+
                     </div>
                   </div>
                 </CarouselItem>
@@ -274,6 +238,21 @@ const LiciousProject = () => {
               </button>
             ))}
           </div>
+        </div>
+
+
+
+        {/* Project Details */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Location: Bangalore, Karnataka
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Year: 2023
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Type: Industrial Setup & Fabrication
+          </Badge>
         </div>
 
         {/* Project Description */}

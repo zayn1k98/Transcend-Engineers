@@ -182,40 +182,13 @@ const CommercialResidential = () => {
       <div className="max-w-6xl mx-auto px-4 pt-32 pb-12">
         {/* Header */}
         <div className="mb-12">
-          {/* Top Row: Back Button and Title */}
-          <div className="flex items-center justify-between mb-6">
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => {
-                navigate('/');
-                setTimeout(() => {
-                  scrollToSection('verticals');
-                }, 100);
-              }}
-              className="flex items-center gap-2 text-sm px-3 py-2"
-            >
-              ← Verticals
-            </Button>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black text-center flex-1 break-words px-4">
+          {/* Title */}
+          <div className="text-center mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl text-black text-center break-words px-4">
               Residential & Commercial
             </h1>
-            <div className="w-32"></div> {/* Spacer for balance */}
-          </div>
-          
-          {/* Project Details */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Location: Residential & Commercial
-            </Badge>
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Year: 2022
-            </Badge>
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Type: Residential & Commercial Structures
-            </Badge>
-          </div>
-        </div>
+                </div>
+              </div>
 
         {/* Main Carousel */}
         <div className="relative mb-12">
@@ -290,9 +263,9 @@ const CommercialResidential = () => {
                             >
                               <Maximize2 className="w-5 h-5" />
                             </Button>
-                          </div>
-                        </div>
-                      </div>
+              </div>
+            </div>
+          </div>
                     ) : (
                       <div className="relative w-full h-full group flex items-center justify-center">
                         <img
@@ -331,7 +304,7 @@ const CommercialResidential = () => {
                 {item.type === "video" ? (
                   <div className="w-full h-full bg-black/50 flex items-center justify-center">
                     <Play className="w-4 h-4 text-white" />
-                  </div>
+            </div>
                 ) : (
                   <img
                     src={item.src}
@@ -344,11 +317,24 @@ const CommercialResidential = () => {
           </div>
         </div>
 
+        {/* Project Details */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Location: Residential & Commercial
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Year: 2022
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Type: Residential & Commercial Structures
+          </Badge>
+        </div>
+
         {/* Project Description */}
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl font-bold mb-6 text-foreground">
+          <h2 className="text-2xl mb-6 text-foreground">
             Project Overview
-          </h2>
+              </h2>
           <p className="text-lg text-muted-foreground leading-relaxed mb-8">
             The Resixcomm project represents our expertise in commercial and residential metal fabrication. 
             This comprehensive project showcases our ability to deliver complex structural solutions, 
@@ -357,19 +343,19 @@ const CommercialResidential = () => {
           
           <div className="grid md:grid-cols-3 gap-6 text-left">
             <div className="bg-card p-6 rounded-xl border border-accent/20">
-              <h3 className="font-semibold mb-3 text-foreground">Structural Excellence</h3>
+              <h3 className="mb-3 text-foreground">Structural Excellence</h3>
               <p className="text-muted-foreground">
                 Advanced metal fabrication techniques ensuring structural integrity and long-term durability for commercial applications.
               </p>
             </div>
             <div className="bg-card p-6 rounded-xl border border-accent/20">
-              <h3 className="font-semibold mb-3 text-foreground">Glass Integration</h3>
+              <h3 className="mb-3 text-foreground">Glass Integration</h3>
               <p className="text-muted-foreground">
                 Precision glass skylight installations that maximize natural lighting while maintaining structural stability and weather resistance.
               </p>
             </div>
             <div className="bg-card p-6 rounded-xl border border-accent/20">
-              <h3 className="font-semibold mb-3 text-foreground">Design Innovation</h3>
+              <h3 className="mb-3 text-foreground">Design Innovation</h3>
               <p className="text-muted-foreground">
                 Custom metalwork solutions that blend seamlessly with architectural design, creating functional and visually appealing structures.
               </p>
@@ -381,4 +367,4 @@ const CommercialResidential = () => {
   );
 };
 
-export default CommercialResidential;
+export default CommercialResidential; 

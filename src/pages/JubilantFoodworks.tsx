@@ -192,19 +192,6 @@ const JubilantFoodworks = () => {
             </h1>
             <div className="w-32"></div> {/* Spacer for balance */}
           </div>
-          
-          {/* Project Details */}
-          <div className="flex flex-wrap justify-center gap-4">
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Location: Bangalore, Karnataka
-            </Badge>
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Year: 2022
-            </Badge>
-            <Badge variant="secondary" className="text-sm px-4 py-2">
-              Type: Food Processing Facility
-            </Badge>
-          </div>
         </div>
 
         {/* Main Carousel */}
@@ -228,17 +215,7 @@ const JubilantFoodworks = () => {
                         className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
                       />
                       
-                      {/* Image Info Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl">
-                        <div className="absolute bottom-6 left-6 right-6">
-                          <h3 className="text-white text-xl font-semibold mb-2">
-                            {item.alt}
-                          </h3>
-                          <p className="text-white/80 text-sm">
-                            Jubilant Foodworks Project - {index + 1} of {mediaItems.length}
-                          </p>
-                        </div>
-                      </div>
+
                     </div>
                   </div>
                 </CarouselItem>
@@ -274,6 +251,21 @@ const JubilantFoodworks = () => {
               </button>
             ))}
           </div>
+        </div>
+
+
+
+        {/* Project Details */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Location: Bangalore, Karnataka
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Year: 2022
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Type: Food Processing Facility
+          </Badge>
         </div>
 
         {/* Project Description */}
