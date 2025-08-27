@@ -293,60 +293,60 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="lg:hidden border-t border-white/20 backdrop-blur-md rounded-b-2xl">
-            <nav className="py-3 xs:py-4 sm:py-5 space-y-1 xs:space-y-2">
+            <nav className="py-4 space-y-2">
               {navigationItems.map((item) => (
                 <div key={item.name}>
                   {item.hasDropdown && item.name === "Verticals" ? (
                     <div className="space-y-1">
                       <button
                         onClick={() => setIsVerticalsOpen(!isVerticalsOpen)}
-                        className="w-full flex items-center justify-between px-4 xs:px-5 sm:px-6 py-3 xs:py-3.5 sm:py-4 text-white/90 hover:text-white hover:bg-white/10 transition-colors font-medium text-base xs:text-lg sm:text-lg"
+                        className="w-full flex items-center justify-between px-6 py-4 text-white/90 hover:text-white hover:bg-white/10 transition-colors font-medium text-lg"
                       >
                         <span>{item.name}</span>
                         {isVerticalsOpen ? (
-                          <ChevronUp className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5" />
+                          <ChevronUp className="w-5 h-5" />
                         ) : (
-                          <ChevronDown className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5" />
+                          <ChevronDown className="w-5 h-5" />
                         )}
                       </button>
                       {isVerticalsOpen && (
-                        <div className="pl-4 xs:pl-6 sm:pl-8 space-y-1 xs:space-y-1.5">
+                        <div className="pl-8 space-y-2">
                           <Link
                             to="/commercial-residential"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block flex items-start gap-2">
+                            <span className="flex items-start gap-3">
                               <Building className="w-4 h-4 flex-shrink-0 mt-0.5" />
                               <span className="leading-tight">Residential &<br />Commercial</span>
                             </span>
                           </Link>
                           <Link
                             to="/f&b"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                            <span className="flex items-center gap-3">
                               <Utensils className="w-4 h-4 flex-shrink-0" />
                               F&B
                             </span>
                           </Link>
                           <Link
                             to="/healthcare"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                            <span className="flex items-center gap-3">
                               <Heart className="w-4 h-4 flex-shrink-0" />
                               Healthcare
                             </span>
                           </Link>
                           <Link
                             to="/industrial"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                            <span className="flex items-center gap-3">
                               <Factory className="w-4 h-4 flex-shrink-0" />
                               Industrial
                             </span>
@@ -354,10 +354,10 @@ const Header = () => {
 
                           <Link
                             to="/upcoming"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block flex items-center gap-2 whitespace-nowrap">
+                            <span className="flex items-center gap-3">
                               <Loader className="w-4 h-4 flex-shrink-0" />
                               Upcoming
                             </span>
@@ -369,52 +369,44 @@ const Header = () => {
                     <div className="space-y-1">
                       <button
                         onClick={() => setIsProjectsOpen(!isProjectsOpen)}
-                        className="w-full flex items-center justify-between px-4 xs:px-5 sm:px-6 py-3 xs:py-3.5 sm:py-4 text-white/90 hover:text-white hover:bg-white/10 transition-colors font-medium text-base xs:text-lg sm:text-lg"
+                        className="w-full flex items-center justify-between px-6 py-4 text-white/90 hover:text-white hover:bg-white/10 transition-colors font-medium text-lg"
                       >
                         <span>{item.name}</span>
                         {isProjectsOpen ? (
-                          <ChevronUp className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5" />
+                          <ChevronUp className="w-5 h-5" />
                         ) : (
-                          <ChevronDown className="w-4 h-4 xs:w-5 xs:h-5 sm:w-5 sm:h-5" />
+                          <ChevronDown className="w-5 h-5" />
                         )}
                       </button>
                       {isProjectsOpen && (
-                        <div className="pl-4 xs:pl-6 sm:pl-8 space-y-1 xs:space-y-1.5">
+                        <div className="pl-8 space-y-2">
                           <Link
                             to="/zion-gallery"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
-                              Zion Hills
-                            </span>
+                            <span>Zion Hills</span>
                           </Link>
                           <Link
                             to="/licious-project"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
-                              Licious
-                            </span>
+                            <span>Licious</span>
                           </Link>
                           <Link
                             to="/jubilant-foodworks"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
-                              Jubilant Foodworks
-                            </span>
+                            <span>Jubilant Foodworks</span>
                           </Link>
                           <Link
                             to="/all-projects"
-                            className="block px-4 xs:px-5 sm:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-sm xs:text-base sm:text-base relative"
+                            className="block px-6 py-3 text-white/70 hover:text-white hover:bg-[#14b8a6] transition-colors text-base relative"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <span className="relative inline-block">
-                              View All Projects
-                            </span>
+                            <span>View All Projects</span>
                           </Link>
                         </div>
                       )}
@@ -427,7 +419,7 @@ const Header = () => {
                           scrollToSection(sectionId);
                           setIsMenuOpen(false);
                         }}
-                        className={`block w-full text-left px-4 xs:px-5 sm:px-6 py-3 xs:py-3.5 sm:py-4 transition-all duration-300 font-medium rounded-lg mx-2 text-base xs:text-lg sm:text-lg ${
+                        className={`block w-full text-left px-6 py-4 transition-all duration-300 font-medium text-lg ${
                           isActivePage(item) 
                             ? 'text-white bg-white/20 shadow-lg' 
                             : 'text-white/90 hover:text-white hover:bg-white/10'
@@ -454,7 +446,7 @@ const Header = () => {
                               window.location.href = "/#contact";
                             }
                           }}
-                          className={`block px-4 xs:px-5 sm:px-6 py-3 xs:py-3.5 sm:py-4 transition-all duration-300 font-medium rounded-lg mx-2 text-base xs:text-lg sm:text-lg ${
+                          className={`block px-6 py-4 transition-all duration-300 font-medium text-lg ${
                             isActivePage(item) 
                               ? 'text-white bg-white/20 shadow-lg' 
                               : 'text-white/90 hover:text-white hover:bg-white/10'
@@ -465,7 +457,7 @@ const Header = () => {
                       ) : (
                         <Link
                           to={item.isAnchor && item.pageHref ? item.pageHref : item.href}
-                          className={`block px-4 xs:px-5 sm:px-6 py-3 xs:py-3.5 sm:py-4 transition-all duration-300 font-medium rounded-lg mx-2 text-base xs:text-lg sm:text-lg ${
+                          className={`block px-6 py-4 transition-all duration-300 font-medium text-lg ${
                             isActivePage(item) 
                               ? 'text-white bg-white/20 shadow-lg' 
                               : 'text-white/90 hover:text-white hover:bg-white/10'
