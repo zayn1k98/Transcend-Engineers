@@ -1,8 +1,202 @@
-import React from 'react';
-import Header from '../components/Header';
-import { Utensils, Coffee, ChefHat, Award, CheckCircle2, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Play, Pause, Volume2, VolumeX, Maximize2, Utensils, Coffee, ChefHat, CheckCircle2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import { useScrollToSection } from "@/hooks/useScrollToSection";
+
+// F&B assets
+import fnb1 from "@/assets/F&B/1.jpg";
+import fnb2 from "@/assets/F&B/20220303_150910.jpg";
+import fnb3 from "@/assets/F&B/3.jpg";
+import fnb4 from "@/assets/F&B/4.jpg";
+import bigKit from "@/assets/F&B/Big Kit-Photoroom.jpg";
+import kitImg from "@/assets/F&B/IMG-20220728-WA0056.jpg";
+import kitBlackSlab from "@/assets/F&B/Kit_blackslab-Photoroom_1.jpg";
+import trayRackTrolleys from "@/assets/F&B/Tray Rack Trolleys.jpg";
+import trolleys from "@/assets/F&B/Trolleys.jpg";
 
 const FnB = () => {
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [carouselApi, setCarouselApi] = useState<any>(null);
+  const [videoRef, setVideoRef] = useState<HTMLVideoElement | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const navigate = useNavigate();
+  const scrollToSection = useScrollToSection();
+
+  // F&B media items
+  const mediaItems = [
+    {
+      type: "image",
+      src: trolleys,
+      alt: "Trolleys"
+    },
+    {
+      type: "image",
+      src: fnb1,
+      alt: "F&B Equipment Setup"
+    },
+    {
+      type: "image",
+      src: fnb2,
+      alt: "Commercial Kitchen Equipment"
+    },
+    {
+      type: "image",
+      src: fnb3,
+      alt: "Food Processing Equipment"
+    },
+    {
+      type: "image",
+      src: fnb4,
+      alt: "Restaurant Equipment"
+    },
+    {
+      type: "image",
+      src: bigKit,
+      alt: "Large Kitchen Setup"
+    },
+    {
+      type: "image",
+      src: kitImg,
+      alt: "Kitchen Installation"
+    },
+    {
+      type: "image",
+      src: kitBlackSlab,
+      alt: "Kitchen Black Slab"
+    },
+    {
+      type: "image",
+      src: trayRackTrolleys,
+      alt: "Tray Rack Trolleys"
+    }
+  ];
+
+  const handleVideoPlayPause = () => {
+    if (!isPlaying) {
+      setIsPlaying(true);
+      enterFullscreen();
+    } else {
+      setIsPlaying(false);
+      exitFullscreen();
+    }
+  };
+
+  const handleVideoResume = () => {
+    setIsPlaying(true);
+    enterFullscreen();
+  };
+
+  const handleVideoMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  const enterFullscreen = async () => {
+    if (videoRef && !isFullscreen) {
+      try {
+        if (videoRef.requestFullscreen) {
+          await videoRef.requestFullscreen();
+        } else if ((videoRef as any).webkitRequestFullscreen) {
+          await (videoRef as any).webkitRequestFullscreen();
+        } else if ((videoRef as any).msRequestFullscreen) {
+          await (videoRef as any).msRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } catch (error) {
+        console.error('Error entering fullscreen:', error);
+      }
+    }
+  };
+
+  const exitFullscreen = async () => {
+    if (isFullscreen) {
+      try {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if ((document as any).webkitExitFullscreen) {
+          await (document as any).webkitExitFullscreen();
+        } else if ((document as any).msExitFullscreen) {
+          await (document as any).msExitFullscreen();
+        }
+        setIsFullscreen(false);
+      } catch (error) {
+        console.error('Error exiting fullscreen:', error);
+      }
+    }
+  };
+
+  const handleSlideChange = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  useEffect(() => {
+    if (!carouselApi) return;
+
+    const onSelect = () => {
+      const index = carouselApi.selectedScrollSnap();
+      handleSlideChange(index);
+    };
+
+    carouselApi.on("select", onSelect);
+    return () => {
+      carouselApi.off("select", onSelect);
+    };
+  }, [carouselApi]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).msFullscreenElement
+      );
+      
+      if (!isCurrentlyFullscreen && isFullscreen) {
+        setIsFullscreen(false);
+        setIsPlaying(false);
+        if (videoRef) {
+          videoRef.pause();
+        }
+      } else if (isCurrentlyFullscreen && !isFullscreen) {
+        setIsFullscreen(true);
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, [isFullscreen, videoRef]);
+
+  useEffect(() => {
+    if (videoRef) {
+      if (isPlaying) {
+        videoRef.play().catch(error => {
+          console.error('Error playing video:', error);
+          setIsPlaying(false);
+        });
+      } else {
+        videoRef.pause();
+      }
+    }
+  }, [isPlaying, videoRef]);
+
   const services = [
     {
       title: "Restaurant Equipment",
@@ -39,140 +233,114 @@ const FnB = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
-      <div className="pt-16">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-amber-900 via-orange-800 to-red-900 text-white py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="flex justify-center mb-6">
-                <div className="bg-white/10 backdrop-blur-md rounded-full p-4">
-                  <Utensils className="w-12 h-12" />
-                </div>
-              </div>
-              <h1 className="text-4xl md:text-6xl mb-6">
-                <span className="text-glow">Food</span>
-                <span className="gradient-title ml-4">&</span>
-                <span className="text-glow ml-4">Beverage</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-orange-100 mb-8 leading-relaxed">
-                Crafting exceptional dining experiences with precision metalwork for the food service industry
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <div className="bg-white/10 backdrop-blur-md rounded-lg px-6 py-3">
-                  <span className="font-semibold">Hygiene Focused</span>
-                </div>
-                <div className="bg-white/10 backdrop-blur-md rounded-lg px-6 py-3">
-                  <span className="font-semibold">Durable Solutions</span>
-                </div>
-                <div className="bg-white/10 backdrop-blur-md rounded-lg px-6 py-3">
-                  <span className="font-semibold">Custom Design</span>
-                </div>
-              </div>
-            </div>
+      <div className="max-w-6xl mx-auto px-4 pt-32 pb-12">
+        {/* Header */}
+        <div className="mb-12">
+          {/* Title */}
+          <div className="text-center mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl text-black text-center break-words px-4">
+              Food & Beverage
+            </h1>
           </div>
-        </section>
+        </div>
 
-        {/* Services Section */}
-        <section className="py-20 bg-white">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl mb-6">
-                <span className="text-glow">Our</span>
-                <span className="gradient-title ml-4">Services</span>
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Specialized metalwork solutions designed specifically for food and beverage operations, 
-                ensuring hygiene, durability, and operational efficiency.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {services.map((service, index) => (
-                <div key={index} className="surface-elevated rounded-2xl p-8 hover-lift transition-all duration-300">
-                  <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl p-4 w-16 h-16 flex items-center justify-center mb-6">
-                    {index === 0 ? (
-                      <Utensils className="w-8 h-8 text-white" />
-                    ) : index === 1 ? (
-                      <Coffee className="w-8 h-8 text-white" />
-                    ) : (
-                      <ChefHat className="w-8 h-8 text-white" />
-                    )}
-                  </div>
-                  <h3 className="text-2xl mb-4 text-gray-800">{service.title}</h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">{service.description}</p>
-                  <ul className="space-y-3">
-                    {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center text-gray-700">
-                        <CheckCircle2 className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Projects Showcase */}
-        <section className="py-20 bg-gray-50">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl mb-6">
-                <span className="text-glow">Featured</span>
-                <span className="gradient-title ml-4">Projects</span>
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Explore our portfolio of food and beverage projects that demonstrate 
-                our expertise in creating functional and beautiful dining spaces.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {projects.map((project, index) => (
-                <div key={index} className="surface-elevated rounded-2xl overflow-hidden hover-lift transition-all duration-300">
-                  <div className="aspect-video bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center">
-                    <span className="text-white text-lg font-semibold">{project.name}</span>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <h3 className="text-xl text-gray-800">{project.name}</h3>
-                      <span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-medium">
-                        {project.category}
-                      </span>
+        {/* Main Carousel */}
+        <div className="relative mb-12">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+            setApi={setCarouselApi}
+          >
+            <CarouselContent className="h-[600px] md:h-[700px]">
+              {mediaItems.map((item, index) => (
+                <CarouselItem key={index} className="relative">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="relative w-full h-full group flex items-center justify-center">
+                      <img
+                        src={item.src}
+                        alt={item.alt}
+                        className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
-                    <p className="text-gray-600 mb-4">{project.description}</p>
-                    <button className="flex items-center text-amber-600 hover:text-amber-700 font-medium transition-colors">
-                      View Project <ArrowRight className="w-4 h-4 ml-2" />
-                    </button>
                   </div>
-                </div>
+                </CarouselItem>
               ))}
-            </div>
-          </div>
-        </section>
+            </CarouselContent>
+            
+            <CarouselPrevious className="left-4" />
+            <CarouselNext className="right-4" />
+          </Carousel>
 
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-br from-amber-900 via-orange-800 to-red-900 text-white">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl md:text-5xl mb-6">
-              Ready to Elevate Your Dining Experience?
-            </h2>
-            <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
-              Let's discuss your food and beverage metalwork requirements and create 
-              spaces that enhance both functionality and ambiance.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-amber-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-                Get Free Consultation
+          {/* Slide Indicators */}
+          <div className="flex justify-center mt-6 space-x-3">
+            {mediaItems.map((item, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  if (carouselApi) {
+                    carouselApi.scrollTo(index);
+                  }
+                }}
+                className={`w-16 h-12 rounded-lg overflow-hidden transition-all duration-300 border-2 ${
+                  index === currentSlide
+                    ? "border-primary scale-110 shadow-lg"
+                    : "border-muted-foreground/30 hover:border-muted-foreground/50 hover:scale-105"
+                }`}
+                aria-label={`Go to slide ${index + 1}`}
+              >
+                <img
+                  src={item.src}
+                  alt={`Thumbnail ${index}`}
+                  className="w-full h-full object-cover"
+                />
               </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-amber-900 transition-colors">
-                View Portfolio
-              </button>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+
+        {/* Project Details */}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Location: Food & Beverage
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Year: 2022-2024
+          </Badge>
+          <Badge variant="secondary" className="text-sm px-4 py-2">
+            Type: Commercial Kitchen Equipment
+          </Badge>
+        </div>
+
+        {/* Our Services Section */}
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl mb-6 text-foreground">
+            Our Services
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
+            Specialized metalwork solutions designed specifically for food and beverage operations, 
+            ensuring hygiene, durability, and operational efficiency.
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-6 text-left">
+            {services.map((service, index) => (
+              <div key={index} className="bg-card p-6 rounded-xl border border-accent/20">
+                <h3 className="mb-3 text-foreground">{service.title}</h3>
+                <p className="text-muted-foreground mb-4 text-sm">{service.description}</p>
+                <ul className="space-y-2">
+                  {service.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-center text-muted-foreground text-sm">
+                      <CheckCircle2 className="w-4 h-4 text-accent mr-2 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

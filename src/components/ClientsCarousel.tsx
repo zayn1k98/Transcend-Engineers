@@ -1,9 +1,17 @@
 import * as React from "react";
 import { motion, useAnimation } from "framer-motion";
 
-// Dynamically import all client images
-const images = import.meta.glob("../assets/clients/*.{jpg,png}", { eager: true, as: 'url' });
-const clientImages = Object.values(images) as string[];
+// Dynamically import all client images and sort them numerically
+const images = import.meta.glob("../assets/clients/*.{jpg,png,jpeg}", { eager: true, as: 'url' });
+const clientImages = Object.entries(images)
+  .map(([path, url]) => ({
+    path,
+    url: url as string,
+    // Extract number from filename (e.g., "1.jpg" -> 1)
+    number: parseInt(path.split('/').pop()?.split('.')[0] || '0', 10)
+  }))
+  .sort((a, b) => a.number - b.number) // Sort by number
+  .map(item => item.url);
 
 export const ClientsCarousel = ({ speed = 120 }: { speed?: number }) => {
   const controls = useAnimation();
@@ -57,7 +65,7 @@ export const ClientsCarousel = ({ speed = 120 }: { speed?: number }) => {
           >
             <img
               src={img}
-              alt={`Client ${idx}`}
+              alt={`Client ${(idx % clientImages.length) + 1}`}
               className="max-h-20 max-w-[110px] object-contain transition duration-300"
               draggable={false}
             />

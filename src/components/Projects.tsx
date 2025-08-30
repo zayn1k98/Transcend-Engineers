@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLink, MapPin } from "lucide-react";
 import projectImage from "@/assets/project-1.jpg";
 import zionMain from "@/assets/zion/zion-main.avif";
-import liciousLogo from "@/assets/clients/Licious-Logo-500x281.png";
+import liciousLogo from "@/assets/clients/3.png";
+import jubilantLogo from "@/assets/clients/4.png";
 import { Link } from "react-router-dom";
 
 const Projects = () => {
@@ -33,7 +34,7 @@ const Projects = () => {
       year: "2022",
       type: "Food Processing Facility",
       description: "",
-      image: projectImage,
+      image: jubilantLogo,
       tags: ["Food Processing", "Industrial", "Facility"]
     }
   ];
@@ -62,7 +63,7 @@ const Projects = () => {
             >
               {/* Project Image */}
               <div className="relative overflow-hidden h-48 flex items-center justify-center bg-slate-50">
-                {project.title === "Licious" ? (
+                {project.title === "Licious" || project.title === "Jubilant Foodworks" ? (
                   <img 
                     src={project.image}
                     alt={project.title}

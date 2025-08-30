@@ -3,6 +3,18 @@ import { ArrowLeft, Users, Award, Target, Clock, Star, CheckCircle2, MapPin, Pho
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 
+// Dynamically import all client images and sort them numerically
+const images = import.meta.glob("../assets/clients/*.{jpg,png,jpeg}", { eager: true, as: 'url' });
+const clientLogos = Object.entries(images)
+  .map(([path, url]) => ({
+    path,
+    url: url as string,
+    // Extract number from filename (e.g., "1.jpg" -> 1)
+    number: parseInt(path.split('/').pop()?.split('.')[0] || '0', 10)
+  }))
+  .sort((a, b) => a.number - b.number) // Sort by number
+  .map(item => item.url);
+
 const AboutUs = () => {
   const serviceCategories = [
     {
@@ -76,27 +88,27 @@ const AboutUs = () => {
               Comprehensive metal fabrication solutions across diverse industries and applications.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
             {serviceCategories.map((category, index) => (
               <div 
                 key={category.title}
-                className="surface-elevated p-6 rounded-xl space-y-4 hover-lift transition-all duration-300"
+                className="surface-elevated p-3 md:p-6 rounded-xl space-y-3 md:space-y-4 hover-lift transition-all duration-300"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="flex items-center space-x-3">
-                  <category.icon className="w-12 h-12 text-primary" />
-                  <div>
-                    <h3 className="text-xl font-bold">{category.title}</h3>
+                <div className="flex items-center space-x-2 md:space-x-3">
+                  <category.icon className="w-8 h-8 md:w-12 md:h-12 text-primary flex-shrink-0" />
+                  <div className="min-w-0">
+                    <h3 className="text-sm md:text-xl font-bold leading-tight">{category.title}</h3>
                     {category.subtitle && (
-                      <p className="text-green-600 text-sm font-medium">{category.subtitle}</p>
+                      <p className="text-green-600 text-xs md:text-sm font-medium">{category.subtitle}</p>
                     )}
                   </div>
                 </div>
-                <ul className="space-y-2">
+                <ul className="space-y-1 md:space-y-2">
                   {category.services.map((service, serviceIndex) => (
-                    <li key={serviceIndex} className="text-muted-foreground text-sm flex items-start space-x-2">
-                      <CheckCircle2 className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span>{service}</span>
+                    <li key={serviceIndex} className="text-muted-foreground text-xs md:text-sm flex items-start space-x-2">
+                      <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-accent mt-0.5 flex-shrink-0" />
+                      <span className="leading-tight">{service}</span>
                     </li>
                   ))}
                 </ul>
@@ -106,7 +118,38 @@ const AboutUs = () => {
         </div>
       </section>
 
-
+      {/* Our Clientele Section */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-6">
+              <span className="text-glow">Our</span>
+              <span className="gradient-title ml-4">Clientele</span>
+            </h2>
+            <p className="text-lg text-black max-w-2xl mx-auto">
+              Trusted by leading companies across various industries
+            </p>
+          </div>
+          
+          {/* Client Logos Grid */}
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-4 md:gap-6">
+            {clientLogos.map((logo, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 p-4 aspect-square group"
+                style={{ animationDelay: `${index * 0.05}s` }}
+              >
+                <img
+                  src={logo}
+                  alt={`Client ${index + 1}`}
+                  className="max-h-12 max-w-full object-contain transition-transform duration-300 group-hover:scale-110"
+                  draggable={false}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Footer CTA */}
       <section className="py-20 relative">

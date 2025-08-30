@@ -7,7 +7,8 @@ import { ExternalLink, MapPin, Filter, Search, Building2, Factory, Utensils } fr
 import { Link } from 'react-router-dom';
 import projectImage from '../assets/project-1.jpg';
 import zionMain from '../assets/zion/zion-main.avif';
-import liciousLogo from '../assets/clients/Licious-Logo-500x281.png';
+import liciousLogo from '../assets/clients/3.png';
+import jubilantLogo from '../assets/clients/4.png';
 
 const AllProjects = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -43,7 +44,7 @@ const AllProjects = () => {
       type: "Food Processing Facility",
       category: "F&B",
       description: "",
-      image: projectImage,
+      image: jubilantLogo,
       tags: ["Food Processing", "Industrial", "Facility"],
       status: "Completed"
     }
@@ -154,7 +155,7 @@ const AllProjects = () => {
                 >
                   {/* Project Image */}
                   <div className="relative overflow-hidden h-48 flex items-center justify-center bg-slate-50">
-                    {project.title === "Licious" ? (
+                    {project.title === "Licious" || project.title === "Jubilant Foodworks" ? (
                       <img 
                         src={project.image}
                         alt={project.title}
