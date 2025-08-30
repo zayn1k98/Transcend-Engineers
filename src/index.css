@@ -14,6 +14,12 @@ All colors MUST be HSL.
   }
   
   html {
+    /* Remove global smooth scroll to prevent issues with page navigation */
+    scroll-behavior: auto;
+  }
+  
+  /* Apply smooth scrolling only for specific anchor links within a page */
+  .smooth-scroll {
     scroll-behavior: smooth;
   }
   
