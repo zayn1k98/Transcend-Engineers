@@ -8,8 +8,8 @@ const Footer = () => {
 
   return (
     <footer className="bg-background border-t border-accent/20">
-      <div className="container mx-auto px-6 py-12">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+      <div className="container mx-auto px-6 py-6 md:py-12">
+        <div className="hidden md:grid lg:grid-cols-4 md:grid-cols-2 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
             <h3 className="text-2xl font-bold">
@@ -77,7 +77,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-accent/20 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div className="mt-0 md:mt-12 pt-4 md:pt-8 border-t border-accent/20 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-muted-foreground text-sm">
             © 2025 Transcend Engineers. All rights reserved.
           </p>

@@ -61,14 +61,32 @@ const Projects = () => {
               className="group overflow-hidden bg-card border-accent/20 hover-lift transition-all duration-500 hover:border-accent/50"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Project Image */}
+              {/* Project Image - Clickable */}
               <div className="relative overflow-hidden h-48 flex items-center justify-center bg-slate-50">
-                {project.title === "Licious" || project.title === "Jubilant Foodworks" ? (
-                  <img 
-                    src={project.image}
-                    alt={project.title}
-                    className="w-48 h-24 object-contain transition-transform duration-700 group-hover:scale-110"
-                  />
+                {project.title === "Zion Hills" ? (
+                  <Link to="/zion-gallery" className="w-full h-full flex items-center justify-center">
+                    <img 
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </Link>
+                ) : project.title === "Licious" ? (
+                  <Link to="/licious-project" className="w-full h-full flex items-center justify-center">
+                    <img 
+                      src={project.image}
+                      alt={project.title}
+                      className="w-48 h-24 object-contain transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </Link>
+                ) : project.title === "Jubilant Foodworks" ? (
+                  <Link to="/jubilant-foodworks" className="w-full h-full flex items-center justify-center">
+                    <img 
+                      src={project.image}
+                      alt={project.title}
+                      className="w-48 h-24 object-contain transition-transform duration-700 group-hover:scale-110"
+                    />
+                  </Link>
                 ) : (
                   <img 
                     src={project.image}
@@ -81,7 +99,21 @@ const Projects = () => {
               {/* Project Content */}
               <div className="p-6 space-y-4">
                 <div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
+                  {project.title === "Zion Hills" ? (
+                    <Link to="/zion-gallery">
+                      <h3 className="text-xl font-bold text-foreground mb-2 hover:text-accent transition-colors cursor-pointer">{project.title}</h3>
+                    </Link>
+                  ) : project.title === "Licious" ? (
+                    <Link to="/licious-project">
+                      <h3 className="text-xl font-bold text-foreground mb-2 hover:text-accent transition-colors cursor-pointer">{project.title}</h3>
+                    </Link>
+                  ) : project.title === "Jubilant Foodworks" ? (
+                    <Link to="/jubilant-foodworks">
+                      <h3 className="text-xl font-bold text-foreground mb-2 hover:text-accent transition-colors cursor-pointer">{project.title}</h3>
+                    </Link>
+                  ) : (
+                    <h3 className="text-xl font-bold text-foreground mb-2">{project.title}</h3>
+                  )}
                   <p className="text-muted-foreground text-sm mb-3">{project.description}</p>
                 </div>
                 

@@ -92,7 +92,7 @@ const AboutUs = () => {
             {serviceCategories.map((category, index) => (
               <div 
                 key={category.title}
-                className="surface-elevated p-3 md:p-6 rounded-xl space-y-3 md:space-y-4 hover-lift transition-all duration-300"
+                className="surface-elevated p-3 md:p-6 rounded-xl space-y-3 md:space-y-4 hover-lift transition-all duration-300 border border-border/40 hover:border-accent/30 bg-card/50 hover:bg-card/80 shadow-sm hover:shadow-md"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="flex items-center space-x-2 md:space-x-3">
