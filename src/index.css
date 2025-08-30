@@ -11,6 +11,10 @@ All colors MUST be HSL.
 @layer base {
   * {
     font-family: 'Montserrat', sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
   
   html {
@@ -21,6 +25,14 @@ All colors MUST be HSL.
   /* Apply smooth scrolling only for specific anchor links within a page */
   .smooth-scroll {
     scroll-behavior: smooth;
+  }
+  
+  /* Allow text selection for form inputs and textareas */
+  input, textarea, [contenteditable="true"] {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
   }
   
   :root {
